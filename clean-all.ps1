@@ -1,4 +1,4 @@
-$exceptions = "library_reader"
+$exceptions = "sources"
 
 Get-ChildItem -Directory | ForEach-Object {
     $fullPath = $_.FullName
@@ -14,5 +14,6 @@ Get-ChildItem -Directory | ForEach-Object {
     }
 }
 
-# Remove completed jobs
+# Silently wait for jobs to finish then remove them
+Get-Job | Wait-Job -Any | Out-Null
 Get-Job | Where-Object { $_.State -eq 'Completed' } | Remove-Job
